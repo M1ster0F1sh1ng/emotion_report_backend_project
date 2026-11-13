@@ -1,0 +1,9 @@
+[project]
+name = "emotion-report-project"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+    "aiomysql>=0.3.2",
+    "fastapi[standard]>=0.162.0",
+    "sqlalchemy[asyncio]>=2.1.8",
+]
