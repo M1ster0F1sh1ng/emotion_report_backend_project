@@ -3,9 +3,9 @@ from fastapi import FastAPI, Path, Query, HTTPException, Depends
 from fastapi.responses import FileResponse
 from hashlib import sha1 as ha
 import time
-
-app = FastAPI()
 from pydantic import BaseModel,Field
+import uvicorn
+app = FastAPI()
 
 
 @app.middleware('http')
@@ -93,3 +93,7 @@ async def funnnnnnn(Book:BOOK):
 @app.get("/test/depend")
 async def func__(arg= Depends(BOOK)):
     return arg
+
+
+if __name__== "__main__":
+    uvicorn.run(app,host="0.0.0.0",port=9000)
