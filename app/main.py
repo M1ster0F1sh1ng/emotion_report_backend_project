@@ -6,6 +6,8 @@ from bcrypt import gensalt,hashpw,checkpw
 import time
 from pydantic import BaseModel,Field
 import uvicorn
+
+import model
 app = FastAPI()
 
 
@@ -33,6 +35,17 @@ async def funn(id : int = Path(gt=0)):
         "id" : id
     }
 
+
+
+async def psw_get(name : str):
+    return b'$2b$12$sqfvIGhLdQTSkSA1.jKxg.MuneGU/PBMLVG9IKHg8yg/AFSd3TeNG'
+
+@app.post("/login")
+async def login_fun(user :model.user_model ):
+    pw= await psw_get(user.name)
+    return checkpw(user.psw.encode(),pw)
+
+
 @app.get("/test/{id}")
 async def funnn(id : int = Path(... , gt=1,lt=100, description="heima_test")):
     return {
@@ -58,16 +71,11 @@ async def funnnnn(price : Annotated[int ,Query(ge=50,le=100)] =None, type_ :  An
     print(f"price: {price},type_: {type_}")
     return FileResponse("")#html,stream,json,file,
 
-class classs(BaseModel):
-    code : str
-    msg : str
 
-class usr(BaseModel):
-    user_name : str
-    psw : str
+
 
 @app.post("/register/question",response_model=classs)
-async def funnnnnn(user:usr):
+async def funnnnnn(user:model.usr):
     print(f"username:{user.user_name},psw:{user.psw}")
     return {
         "code" : "200",
@@ -77,13 +85,9 @@ async def funnnnnn(user:usr):
     }
 
 
-class BOOK(BaseModel):
-    book_name :str = Field(min_length=2,max_length=255,description= " " )
-    writer : Annotated[str, Field(min_length=2,max_length=255,description= " " )]
-    price :int
 
-@app.post("/add/question",response_model=classs)
-async def funnnnnnn(Book:BOOK):
+@app.post("/add/question",response_model=model.classs)
+async def funnnnnnn(Book : model.BOOK):
     return {
         "code" : "200",
         "msg": "success",
@@ -92,7 +96,7 @@ async def funnnnnnn(Book:BOOK):
 
 
 @app.get("/test/depend")
-async def func__(arg= Depends(BOOK)):
+async def func__(arg= Depends(model.BOOK)):
     return arg
 
 
