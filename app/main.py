@@ -2,6 +2,7 @@ from typing import Annotated
 from fastapi import FastAPI, Path, Query, HTTPException, Depends
 from fastapi.responses import FileResponse
 from hashlib import sha1 as ha
+from bcrypt import gensalt,hashpw,checkpw
 import time
 from pydantic import BaseModel,Field
 import uvicorn
@@ -96,4 +97,4 @@ async def func__(arg= Depends(BOOK)):
 
 
 if __name__== "__main__":
-    uvicorn.run(app,host="0.0.0.0",port=9000)
+    uvicorn.run(app,host="0.0.0.0",port=8500)
