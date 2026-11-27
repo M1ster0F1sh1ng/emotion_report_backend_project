@@ -8,6 +8,8 @@ from pydantic import BaseModel,Field
 import uvicorn
 
 import model
+from model import *
+from ormsql import *
 app = FastAPI()
 
 
@@ -74,14 +76,14 @@ async def funnnnn(price : Annotated[int ,Query(ge=50,le=100)] =None, type_ :  An
 
 
 
-@app.post("/register/question",response_model=classs)
-async def funnnnnn(user:model.usr):
-    print(f"username:{user.user_name},psw:{user.psw}")
+@app.post("/register/question",response_model=model.classs)
+async def funnnnnn(user:model.user_model):
+    print(f"username:{user.name},psw:{user.psw}")
     return {
         "code" : "200",
         "msg": "success",
         "message " : "nice",
-        "u_n" : f"{user.user_name}"
+        "u_n" : f"{user.name}"
     }
 
 
